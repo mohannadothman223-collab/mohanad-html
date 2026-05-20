@@ -1,0 +1,45 @@
+/* Dark theme CSS for assignment and video layout */
+:root{
+  --bg:#0b1220; /* page background */
+  --card:#0f1724; /* card background */
+  --accent:#4f46e5; /* brighter accent */
+  --muted:#9ca3af; /* muted text */
+  --text:#e6eef8; /* main text */
+}
+*{box-sizing:border-box}
+.body{font-family:Segoe UI, Tahoma, Arial, sans-serif;background:var(--bg);color:var(--text);margin:0;padding:20px;direction:ltr}
+.container{max-width:900px;margin:0 auto}
+.assignment-header{background:var(--card);padding:20px;border-radius:10px;box-shadow:0 6px 18px rgba(2,6,23,.6);margin-bottom:18px}
+.assignment-header h1{margin:0 0 6px 0;font-size:1.6rem;color:var(--accent)}
+.assignment-header p{margin:0;color:var(--muted)}
+.video-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:16px;border-radius:10px;box-shadow:0 6px 18px rgba(2,6,23,.6)}
+.responsive-video{width:100%;height:auto;border-radius:6px;background:#000}
+.controls{display:flex;gap:12px;align-items:center;margin-top:12px}
+
+.btn{background:var(--accent);color:#fff;border:none;padding:8px 14px;border-radius:6px;cursor:pointer;font-size:1rem;box-shadow:0 4px 10px rgba(79,70,229,.15)}
+.btn:hover{opacity:.95}
+.label{color:var(--muted);font-size:.9rem}
+input[type=range]{width:160px;background:transparent}
+
+/* custom track/thumb for progress */
+input[type=range]::-webkit-slider-runnable-track{height:6px;background:rgba(255,255,255,.08);border-radius:6px}
+input[type=range]::-webkit-slider-thumb{width:14px;height:14px;border-radius:50%;background:var(--accent);margin-top:-4px}
+input[type=range]:focus{outline:none}
+
+/* progress bar stretches full width */
+.progress{flex:1;min-width:120px;width:100%}
+.controls{display:flex;gap:12px;align-items:center;margin-top:12px;flex-wrap:wrap}
+
+/* progress bar stretches full width */
+.progress{flex:1;min-width:120px;width:100%}
+.controls{display:flex;gap:12px;align-items:center;margin-top:12px;flex-wrap:wrap}
+
+/* استجابة */
+@media (max-width:480px){
+  .controls{flex-direction:column;align-items:flex-start}
+  input[type=range]{width:100%}
+}
+
+/* small tweaks for contrast */
+.assignment-header strong{color:var(--text)}
+.label{font-weight:600}

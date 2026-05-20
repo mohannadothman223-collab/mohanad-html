@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Video Assignment</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+	<main class="container">
+		<header class="assignment-header">
+			<h1>Video Assignment</h1>
+			<p>Place a file named <strong>video.mp4</strong> in this folder to play it.</p>
+		</header>
+
+		<section class="video-card">
+			<video id="myVideo" class="responsive-video" controls poster="">
+				<source src="WhatsApp Video 2026-05-02 at 1.39.09 PM.mp4" type="video/mp4">
+				Your browser does not support the video element.
+			</video>
+
+			<div class="controls">
+				<button id="playPauseBtn" class="btn">Play</button>
+				<button id="restartBtn" class="btn">Restart</button>
+				<label class="label">Volume</label>
+				<input id="volume" type="range" min="0" max="1" step="0.05" value="1">
+				<input id="progress" class="progress" type="range" min="0" max="100" value="0">
+			</div>
+		</section>
+	</main>
+
+	<script src="script.js"></script>
+</body>
+</html>
+

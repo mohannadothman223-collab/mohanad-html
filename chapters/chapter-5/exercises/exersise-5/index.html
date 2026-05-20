@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psychedelic Fish - Audio Sampler</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a4d6d 0%, #2d7a8f 25%, #1f6b82 50%, #0d3a4a 75%, #1a4d6d 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Decorative patterns - psychedelic style */
+        body::before {
+            content: '';
+            position: fixed;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(255, 100, 120, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(0, 200, 200, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(255, 200, 0, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 32px;
+            backdrop-filter: blur(10px);
+            border: 3px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .top-header {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 10;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 0.05em;
+        }
+
+        .header-left::before {
+            content: '▶';
+            font-size: 20px;
+            color: #fff;
+        }
+
+        .header-right {
+            background: rgba(255, 255, 255, 0.95);
+            color: #e82f4e;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .input-section {
+            flex: 0 0 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .input-box {
+            background: rgba(255, 255, 255, 0.95);
+            border: 4px solid rgba(0, 0, 0, 0.15);
+            border-radius: 24px;
+            padding: 24px;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .input-box textarea {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            color: #666;
+            font-family: inherit;
+            resize: none;
+            background: transparent;
+        }
+
+        .input-box textarea::placeholder {
+            color: #aaa;
+        }
+
+        .say-button {
+            background: #000;
+            color: #fff;
+            border: 4px solid #000;
+            border-radius: 16px;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.05em;
+        }
+
+        .say-button:hover {
+            background: #333;
+            border-color: #333;
+        }
+
+        .grid-section {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.98);
+            border: 6px solid rgba(0, 0, 0, 0.25);
+            border-radius: 24px;
+            padding: 28px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.5), transparent 60%);
+            pointer-events: none;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .card.playing {
+            background: #e82f4e;
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .card-number {
+            font-size: 14px;
+            font-weight: 700;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.8;
+        }
+
+        .card.playing .card-number {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 900;
+            color: #111;
+            margin: 8px 0;
+            letter-spacing: 0.02em;
+        }
+
+        .card.playing .card-title {
+            color: #fff;
+        }
+
+        .card-duration {
+            font-size: 16px;
+            font-weight: 700;
+            color: #999;
+        }
+
+        .card.playing .card-duration {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 30px;
+            right: 40px;
+            display: flex;
+            gap: 20px;
+            font-size: 36px;
+            color: #fff;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 900;
+            font-size: 28px;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-container.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 90%;
+            max-width: 900px;
+            background: #000;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .close-video {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid #fff;
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .close-video:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .grid-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .input-section {
+                flex: none;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 20px;
+                gap: 15px;
+            }
+
+            .grid-section {
+                grid-template-columns: 1fr;
+            }
+
+            .top-header {
+                padding: 0 20px;
+            }
+
+            .controls {
+                right: 20px;
+                bottom: 20px;
+            }
+
+            .video-wrapper {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <div class="header-left">PSYCHEDELIC FISH</div>
+        <div class="header-right">Sample Bank 2</div>
+    </div>
+
+    <div class="container">
+        <div class="input-section">
+            <div class="input-box">
+                <textarea placeholder="Type Here"></textarea>
+                <button class="say-button">Say it</button>
+            </div>
+        </div>
+
+        <div class="grid-section">
+            <article class="card">
+                <div class="card-number">10.</div>
+                <h2 class="card-title">Ah-Ha</h2>
+                <div class="card-duration">1.4</div>
+            </article>
+            <article class="card playing">
+                <div class="card-number">11.</div>
+                <h2 class="card-title">Dan</h2>
+                <div class="card-duration">0.5</div>
+            </article>
+            <article class="card">
+                <div class="card-number">12.</div>
+                <h2 class="card-title">Back of the net</h2>
+                <div class="card-duration">1.02</div>
+            </article>
+            <article class="card">
+                <div class="card-number">13.</div>
+                <h2 class="card-title">Bang out of order</h2>
+                <div class="card-duration">1.38</div>
+            </article>
+            <article class="card">
+                <div class="card-number">14.</div>
+                <h2 class="card-title">Jurassic Park</h2>
+                <div class="card-duration">1.49</div>
+            </article>
+            <article class="card">
+                <div class="card-number">15.</div>
+                <h2 class="card-title">Smell my cheese</h2>
+                <div class="card-duration">1.91</div>
+            </article>
+            <article class="card">
+                <div class="card-number">16.</div>
+                <h2 class="card-title">Goal</h2>
+                <div class="card-duration">1.49</div>
+            </article>
+            <article class="card">
+                <div class="card-number">17.</div>
+                <h2 class="card-title">Kiss my face</h2>
+                <div class="card-duration">1.07</div>
+            </article>
+            <article class="card">
+                <div class="card-number">18.</div>
+                <h2 class="card-title">Hello Partridge</h2>
+                <div class="card-duration">2.25</div>
+            </article>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="control-btn">❮</button>
+        <button class="control-btn">❯</button>
+    </div>
+
+    <!-- video container -->
+    <div class="video-container" id="videoContainer">
+        <div class="video-wrapper">
+            <button class="close-video" id="closeVideo">✕</button>
+            <video id="mainVideo" controls>
+                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                Your browser does not support the video element.
+            </video>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // 1️⃣ Helper Functions
+        // ============================================================
+
+        // Create Audio API context
+        let audioContext = null;
+
+        function getAudioContext() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            return audioContext;
+        }
+
+        // Main function to play a sound
+        function playSound(frequency, duration, type = 'sine') {
+            try {
+                const ctx = getAudioContext();
+                
+                if (ctx.state === 'suspended') {
+                    ctx.resume().then(() => {
+                        playSoundNow(ctx, frequency, duration, type);
+                    });
+                } else {
+                    playSoundNow(ctx, frequency, duration, type);
+                }
+            } catch (e) {
+                console.error('Error playing sound:', e);
+            }
+        }
+
+        // Subroutine to play the sound immediately
+        function playSoundNow(ctx, frequency, duration, type) {
+            const now = ctx.currentTime;
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+
+            osc.type = type;
+            osc.frequency.value = frequency;
+
+            gain.gain.setValueAtTime(0.3, now);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + duration);
+
+            osc.start(now);
+            osc.stop(now + duration);
+        }
+
+        // ============================================================
+        // 2️⃣ Data & Elements
+        // ============================================================
+
+        // Define sounds and frequencies
+        const soundMap = {
+            0: { freq: 400, name: 'Ah-Ha' },
+            1: { freq: 523, name: 'Dan' },
+            2: { freq: 659, name: 'Back of the net' },
+            3: { freq: 784, name: 'Bang out of order' },
+            4: { freq: 880, name: 'Jurassic Park' },
+            5: { freq: 1047, name: 'Smell my cheese' },
+            6: { freq: 1175, name: 'Goal' },
+            7: { freq: 1319, name: 'Kiss my face' },
+            8: { freq: 1397, name: 'Hello Partridge' }
+        };
+
+        // Select elements from the DOM
+        const cards = document.querySelectorAll('.card');
+        const sayButton = document.querySelector('.say-button');
+        const textarea = document.querySelector('textarea');
+        const controlButtons = document.querySelectorAll('.control-btn');
+
+        // ============================================================
+        // 3️⃣ Sound Logic 🎵
+        // ============================================================
+
+        // Play sound when a card is clicked
+        cards.forEach((card, index) => {
+            card.addEventListener('click', function() {
+                const sound = soundMap[index];
+                playSound(sound.freq, 0.5, 'sine');
+            });
+        });
+
+        // Play sound and speak text when Say it is clicked
+        sayButton.addEventListener('click', function() {
+            const text = textarea.value.trim();
+            if (text) {
+                playSound(600, 0.3, 'sine');
+
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'en-US';
+                    speechSynthesis.speak(utterance);
+                }
+            }
+        });
+
+        // Play simple tones for control buttons
+        controlButtons.forEach((btn, index) => {
+            btn.addEventListener('click', function() {
+                playSound(440 + (index * 100), 0.2, 'sine');
+            });
+        });
+
+        // Play a short welcome tone on first interaction
+        document.addEventListener('click', function initAudio() {
+            playSound(523, 0.2, 'sine');
+            document.removeEventListener('click', initAudio);
+        }, { once: true });
+
+        // ============================================================
+        // 4️⃣ UI Effects
+        // ============================================================
+
+        // Hover effect on cards
+        cards.forEach((card) => {
+            card.addEventListener('mouseenter', function() {
+                if (!card.classList.contains('playing')) {
+                    card.style.transform = 'scale(1.05)';
+                }
+            });
+
+            card.addEventListener('mouseleave', function() {
+                card.style.transform = 'scale(1)';
+            });
+        });
+
+        // Update card state when clicked
+        cards.forEach((card, index) => {
+            card.addEventListener('click', function() {
+                cards.forEach(c => c.classList.remove('playing'));
+                card.classList.add('playing');
+
+                setTimeout(() => {
+                    card.classList.remove('playing');
+                }, 500);
+            });
+        });
+
+    </script>
+
+    <!-- Load external video script -->
+    <script src="video.js"></script>
+</body>
+</html>

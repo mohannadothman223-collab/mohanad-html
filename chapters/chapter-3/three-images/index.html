@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nature Photography Gallery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            padding: 20px;
+        }
+
+        .image-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .image-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .image-wrapper {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            background: #f0f0f0;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* CSS Filters for each image */
+        .image-1 {
+            filter: saturate(150%) contrast(110%);
+        }
+
+        .image-2 {
+            filter: brightness(110%) sepia(20%);
+        }
+
+        .image-3 {
+            filter: hue-rotate(15deg) brightness(105%);
+        }
+
+        .image-info {
+            padding: 20px;
+        }
+
+        .image-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .image-license {
+            font-size: 0.9em;
+            color: #666;
+            line-height: 1.6;
+            background: #f9f9f9;
+            padding: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .license-title {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Nature Photography Gallery</h1>
+        
+        <div class="gallery">
+            <!-- Image 1 -->
+            <div class="image-card">
+                <div class="image-wrapper">
+                    <img 
+                        src="adrian-gomez-fTMdrmm3umM-unsplash.jpg" 
+                        alt="Mountain landscape with rolling hills and sunrise illumination in warm golden tones"
+                        width="600"
+                        height="400"
+                        title="Golden Hour Mountain Landscape - Scenic peaks bathed in warm sunset light"
+                        class="image-1"
+                    />
+                </div>
+                <div class="image-info">
+                    <div class="image-title">Mountain Landscape</div>
+                    <div class="image-license">
+                        <div class="license-title">License Information</div>
+                        Photo by Adrian Gomez on Unsplash<br>
+                        <a href="https://unsplash.com/photos/fTMdrmm3umM" style="color: #667eea; text-decoration: none;">View Original</a><br>
+                        <strong>License:</strong> Unsplash License (Free for commercial and non-commercial use)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image 2 -->
+            <div class="image-card">
+                <div class="image-wrapper">
+                    <img 
+                        src="enfocus-collective-bsEwmzpqyhk-unsplash.jpg" 
+                        alt="Dense green forest canopy with sunlight filtering through leaves creating dappled light patterns"
+                        width="600"
+                        height="400"
+                        title="Lush Forest Canopy - Verdant woodland with natural sunlight streaming through dense foliage"
+                        class="image-2"
+                    />
+                </div>
+                <div class="image-info">
+                    <div class="image-title">Forest Canopy</div>
+                    <div class="image-license">
+                        <div class="license-title">License Information</div>
+                        Photo by Enfocus Collective on Unsplash<br>
+                        <a href="https://unsplash.com/photos/bsEwmzpqyhk" style="color: #667eea; text-decoration: none;">View Original</a><br>
+                        <strong>License:</strong> Unsplash License (Free for commercial and non-commercial use)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image 3 -->
+            <div class="image-card">
+                <div class="image-wrapper">
+                    <img 
+                        src="nikolay-loubet-OvTA3GojQP8-unsplash.jpg" 
+                        alt="Serene water surface reflecting sky with gentle ripples and peaceful natural composition"
+                        width="600"
+                        height="400"
+                        title="Peaceful Water Reflection - Calm water surface with subtle ripples and sky reflection"
+                        class="image-3"
+                    />
+                </div>
+                <div class="image-info">
+                    <div class="image-title">Water Reflection</div>
+                    <div class="image-license">
+                        <div class="license-title">License Information</div>
+                        Photo by Nikolay Loubet on Unsplash<br>
+                        <a href="https://unsplash.com/photos/OvTA3GojQP8" style="color: #667eea; text-decoration: none;">View Original</a><br>
+                        <strong>License:</strong> Unsplash License (Free for commercial and non-commercial use)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
